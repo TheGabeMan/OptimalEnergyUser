@@ -13,10 +13,10 @@ Using dynamic energy tarifs, the cost of running heavy machinery can vary per ho
 To get the forecast of your solarpanels, we're using the https://forecast.solar/ API. Though this is possible for free, please reward the maker by maybe signing up for the 'personal' plan or use the 'buy me a coffee' button on the website.
 
 To make the forecast for your solar panels, you need to determine:
-1- your exact location in latitude and longitude
-2- the declination of your panels
-3- the azimuth or orientation of your panels.
-4- the peak watt of your solar panels in kWh (float)
+1. your exact location in latitude and longitude
+2. the declination of your panels
+3. the azimuth or orientation of your panels.
+4. the peak watt of your solar panels in kWh (float)
 
 Add these values to the .env file manually like:
 ```
@@ -41,8 +41,8 @@ Currently I can only read information from EnergyZero in the Netherlands who's p
 
 # Use of EnergyZero and Solar.Forecast
 This project makes use of the following other projects:
-[EnergyZero by Klaas Nicolaas] (https://github.com/klaasnicolaas/python-energyzero)
-[Forecast.Solar by Knut Kohl] (https://forecast.solar/) Though the use of his API is for free, please reward the maker by signing up for the 'personal' plan or use the 'buy me a coffee' button on the website.
+- [EnergyZero by Klaas Nicolaas](https://github.com/klaasnicolaas/python-energyzero)
+- [Forecast.Solar by Knut Kohl](https://forecast.solar/) Though the use of his API is for free, please reward the maker by signing up for the 'personal' plan or use the 'buy me a coffee' button on the website.
 
 
 
@@ -50,14 +50,13 @@ This project makes use of the following other projects:
 
 
 
-# On the To Do list:
+## On the To Do list:
 
-
-Base consumption
+### Base consumption
 If you now the base consumption of your household, this will be used in the calculations as well. You can enter a value in kWh hour to reflect the base consumption or add it manualy in the .env file:
 BASE=0.5
 
-Power Consumption
+### Power Consumption
 Next we need to know the power consumption of some heavy devices in your house hold. You'll be asked for these in the first run of the script, but you can also enter and add them manually in the .env file, using the following format:
 device01='name',powerusage in kWh for one run, duration in hours
 device02='name',powerusage in kWh for one run, duration in hours
