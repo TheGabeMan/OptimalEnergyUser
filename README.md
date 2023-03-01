@@ -4,7 +4,7 @@
 ![GitHub issues](https://img.shields.io/github/issues/thegabeman/OptimalEnergyUser?style=plastic)
 
 # OptimalEnergyUser
-What time of the day should you use your heavy devices?
+Send daily update to family members for the most optimal time to run heavy devices as cheap as possible.
 
 # Goal of this script
 Using dynamic energy tarifs, the cost of running heavy machinery can vary per hour. With this script you'll get a daily overview of the upcoming hourly tarifs, combined with the predicted solar panel delivery and the base power usage of your household. This graph will then be send to a Telegram Group chat, so the group members (family) now knows when to run heavy devices like a dishwasher, tumble dryer or washingmashine.
