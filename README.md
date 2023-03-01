@@ -41,27 +41,8 @@ Currently I can only read information from EnergyZero in the Netherlands who's p
 
 # Use of EnergyZero and Solar.Forecast
 This project makes use of the following other projects:
-- [EnergyZero by Klaas Nicolaas](https://github.com/klaasnicolaas/python-energyzero)
+- [EnergyZero by Klaas Schoute](https://github.com/klaasnicolaas/python-energyzero)
 - [Forecast.Solar by Knut Kohl](https://forecast.solar/) Though the use of his API is for free, please reward the maker by signing up for the 'personal' plan or use the 'buy me a coffee' button on the website.
 
 
 
-
-
-
-
-## On the To Do list:
-
-### Base consumption
-If you now the base consumption of your household, this will be used in the calculations as well. You can enter a value in kWh hour to reflect the base consumption or add it manualy in the .env file:
-BASE=0.5
-
-### Power Consumption
-Next we need to know the power consumption of some heavy devices in your house hold. You'll be asked for these in the first run of the script, but you can also enter and add them manually in the .env file, using the following format:
-device01='name',powerusage in kWh for one run, duration in hours
-device02='name',powerusage in kWh for one run, duration in hours
-
-If you tumbledryer use 3kWh for one cycle and it will take 1,5hrs for the cycle, this would be:
-device01='tumbledryer long program', 3, 1.5
-and for the shorter program maybe 1.5kWh for half an hour:
-device02='tumbledryver short program',1.5,0.5
