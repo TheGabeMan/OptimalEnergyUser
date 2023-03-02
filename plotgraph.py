@@ -24,7 +24,7 @@ def create_plot(combined_list):
     ax.legend()
 
     ax2 = ax.twinx()
-    ax2.plot(solar, color="green", label="legend Solar Wh")
+    ax2.plot(solar, color="green", label="Solar Forecast in Wh")
     ax2.set_ylabel("Wh")
     ax2.legend()
 

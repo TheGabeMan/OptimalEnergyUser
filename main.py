@@ -17,12 +17,13 @@ def main():
     """Main script"""
     # Nog doen: controle op env inhoud en eventueel vragen om input
 
-    # Inlezen EnergyZero
+    # Get EnergyZero prices
     energyprices = asyncio.run(get_energy_prices())
 
-    # Inlezen forecast
+    # Get forecast info
     solar_forecastjson = solarforecast.get_solarforecast()
 
+    # Combine Energy Prices and SolarForcast
     combined_list = get_combined_values(energyprices, solar_forecastjson)
 
     # Voor debugging opslaan van combined_list
@@ -56,7 +57,8 @@ def get_combined_values(energyprices, solar_forecastjson):
     combined_list = None
     for electrictytimestamp, electrictyprice in energyprices.prices.items():
         found_forecast = False
-        for forecasttime, forecastvalue in solar_forecastjson["result"].items():
+        # for forecasttime, forecastvalue in solar_forecastjson["result"].items():
+        for forecasttime, forecastvalue in solar_forecastjson.items():
             if (
                 datetime.datetime.strptime(forecasttime, "%Y-%m-%dT%H:%M:%S%z")
                 == electrictytimestamp
@@ -117,8 +119,8 @@ async def get_energy_prices() -> None:
     https://pypi.org/project/energyzero/"""
 
     async with EnergyZero(incl_btw="true") as client:
-        start_date = datetime.datetime.today()
-        end_date = start_date + datetime.timedelta(days=1)
+        end_date = datetime.datetime.today() + datetime.timedelta(days=1)
+        start_date = end_date #We only need one day
         energy = await client.energy_prices(start_date, end_date)
         return energy
 
