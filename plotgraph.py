@@ -1,34 +1,34 @@
+"""Generate the data for the Graph"""
+import datetime
 import matplotlib.pyplot as plt
 import numpy
-import datetime
 
 
 def create_plot(combined_list):
-    # combined_list = numpy.load("dumpert.npy", allow_pickle=True)
+    """Generate the data for the Graph"""
+    # DEBUG: combined_list = numpy.load("dumpert.npy", allow_pickle=True)
+    rows = len(combined_list)
+    prices = combined_list[0 : rows + 1, 1:2]
+    solar = combined_list[0 : rows + 1, 3:4]
 
-    xas = None
-    prices = None
-    solar = None
-    for row in combined_list:
-        if xas is None:
-            xas = [datetime.datetime.strftime(row[0], "%H:%m")]
-            prices = [row[1]]
-            solar = [row[3]]
-        else:
-            xas = xas + [datetime.datetime.strftime(row[0], "%H:%m")]
-            prices = prices + [row[1]]
-            solar = solar + [row[3]]
+    xas = [(str(combined_list[i][0].hour) + ":00") for i in range(rows)]
+    forecastdate = datetime.datetime.strftime(combined_list[12][0], "%A %d %B %Y")
+    max_prices = max(prices.flatten()) * 1.5
 
     fig, ax = plt.subplots()
-    ax.bar(xas, prices, color="red", label="Price per KWh")
-    ax.set_xlabel("Time")
-    ax.set_ylabel("Solar Wh")
-    ax.set_ylim(ymax=max(prices) * 1.5, ymin=0)
-    plt.legend()
+    ax.bar(xas, prices.flatten(), color="#76ff7b", label="Price per KWh")
+    ax.set_xticks(xas, xas, rotation=45, fontsize=5)
+    ax.set_xlabel("Time of day")
+    ax.set_ylabel("Price in Euro's")
+    ax.set_ylim(ymax=max_prices, ymin=0)
+    ax.legend()
 
     ax2 = ax.twinx()
-    ax2.plot(xas, solar, color="green", label="Solar Wh")
-    ax2.set_ylabel("Price KWh")
-    plt.legend()
+    ax2.plot(solar, color="green", label="legend Solar Wh")
+    ax2.set_ylabel("Wh")
+    ax2.legend()
 
-    return plt
+    plt.title("Forecast for " + forecastdate)
+    plt.legend(loc="upper left")
+
+    return plt, forecastdate
