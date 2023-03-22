@@ -59,9 +59,10 @@ def get_combined_values(energyprices, solar_forecastjson):
         found_forecast = False
         # for forecasttime, forecastvalue in solar_forecastjson["result"].items():
         for forecasttime, forecastvalue in solar_forecastjson.items():
+            forecast_dt = datetime.datetime.fromisoformat(forecasttime)
+            forecast_utc_dt = forecast_dt.astimezone(datetime.timezone.utc)
             if (
-                datetime.datetime.strptime(forecasttime, "%Y-%m-%dT%H:%M:%S%z")
-                == electrictytimestamp
+                forecast_utc_dt == electrictytimestamp
             ):
                 found_forecast = True
                 if combined_list is None:
