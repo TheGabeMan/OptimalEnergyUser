@@ -2,11 +2,16 @@
 import datetime
 import matplotlib.pyplot as plt
 import numpy
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def create_plot(combined_list):
     """Generate the data for the Graph"""
-    # DEBUG: combined_list = numpy.load("dumpert.npy", allow_pickle=True)
+    forecast_kwp = float(os.getenv("KWP")) * 1000
+
     rows = len(combined_list)
     prices = combined_list[0 : rows + 1, 1:2]
     solar = combined_list[0 : rows + 1, 3:4]
@@ -26,6 +31,7 @@ def create_plot(combined_list):
     ax2 = ax.twinx()
     ax2.plot(solar, color="green", label="Solar Forecast in Wh")
     ax2.set_ylabel("Wh")
+    ax2.set_ylim(ymax=forecast_kwp, ymin=0)
     ax2.legend()
 
     plt.title("Forecast for " + forecastdate)
