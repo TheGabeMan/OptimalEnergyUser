@@ -39,9 +39,8 @@ def main():
     plt.savefig(image_name, format="png", dpi=300)
 
     # Send to Telegram
-    send_telegram.send_telegram_message(
-        "Energy prices and solar forecast for " + forecastdate
-    )
+    telegram_text = send_telegram.create_body_text(energyprices)
+    send_telegram.send_telegram_message(telegram_text)
     send_telegram.send_telegram_image(image_name)
 
     # Remove the temporary file
@@ -50,20 +49,13 @@ def main():
 
 def get_combined_values(energyprices, solar_forecastjson):
     """Combine Energy prices and forecast"""
-    # tomorrow = (datetime.datetime.today() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
-    # tomorrow = datetime.datetime.strptime(tomorrow, ("%Y-%m-%d"))
-    # utcstamp = tomorrow.astimezone(pytz.utc)
-    # targettimezone = pytz.timezone('Europe/Amsterdam')
     combined_list = None
     for electrictytimestamp, electrictyprice in energyprices.prices.items():
         found_forecast = False
-        # for forecasttime, forecastvalue in solar_forecastjson["result"].items():
         for forecasttime, forecastvalue in solar_forecastjson.items():
             forecast_dt = datetime.datetime.fromisoformat(forecasttime)
             forecast_utc_dt = forecast_dt.astimezone(datetime.timezone.utc)
-            if (
-                forecast_utc_dt == electrictytimestamp
-            ):
+            if forecast_utc_dt == electrictytimestamp:
                 found_forecast = True
                 if combined_list is None:
                     combined_list = numpy.array(
@@ -106,11 +98,6 @@ def get_combined_values(energyprices, solar_forecastjson):
                     [[electrictytimestamp, electrictyprice, electrictytimestamp, 0]],
                     axis=0,
                 )
-
-    # print('************     COMBINED LIST    *********')
-    # for row in combined_list:
-    #     print( row )
-
     return combined_list
 
 
@@ -120,8 +107,16 @@ async def get_energy_prices() -> None:
     https://pypi.org/project/energyzero/"""
 
     async with EnergyZero(incl_btw="true") as client:
-        end_date = datetime.datetime.today() + datetime.timedelta(days=1)
-        start_date = end_date #We only need one day
+        if datetime.datetime.today().hour <= 6:
+            """Since new prices will be available after 15:00, calling them after
+            midnight but before 15:00 will result in empty response. But also since it
+            is only for debugging that EnergyZero will be queried after midnight,
+            I'm using before 6am as time check"""
+            end_date = datetime.datetime.today()
+        else:
+            end_date = datetime.datetime.today() + datetime.timedelta(days=1)
+
+        start_date = end_date  # We only need one day
         energy = await client.energy_prices(start_date, end_date)
         return energy
 
