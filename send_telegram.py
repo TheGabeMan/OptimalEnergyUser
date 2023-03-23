@@ -2,14 +2,17 @@
 import os
 import logging
 import sys
+import pytz
+import datetime
 
 import requests
 from dotenv import load_dotenv
 
+load_dotenv()
+
 
 def get_telegram_creds():
     """Load Telegram API token and channel ID"""
-    load_dotenv()
     logging.info("Reading telegram data from .env")
     telegram_api = os.getenv("TELEGRAMAPI")
     telegram_channel_id = os.getenv("TELEGRAMCHANNELID")
@@ -49,3 +52,22 @@ def send_telegram_message(message):
     if response.status_code != 200:
         logging.error("Error while posting to telegram API %s", response.status_code)
         print("Error while posting to telegram API %s", response.status_code)
+
+
+def create_body_text(energyprices):
+    """Create a body text for the telegram message"""
+    timezone = pytz.timezone(os.getenv("TIMEZONE"))
+    energyprice_max_time = (
+        (energyprices.highest_price_time).astimezone(timezone).strftime("%H:%M")
+    )
+    energyprice_min_time = (
+        (energyprices.lowest_price_time).astimezone(timezone).strftime("%H:%M")
+    )
+    forecastdate = datetime.datetime.strftime(
+        energyprices.lowest_price_time, "%A %d %B %Y"
+    )
+
+    text = "Energy prices and solar forecast for " + forecastdate + "\n"
+    text += "The maximum price will be at " + energyprice_max_time + "\n"
+    text += "The minimum price will be at " + energyprice_min_time + "\n"
+    return text

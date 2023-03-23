@@ -10,6 +10,7 @@ import send_telegram
 
 load_dotenv()
 
+
 def get_solarforecast():
     """Read forecast for tomorrow"""
 
@@ -36,17 +37,23 @@ def get_solarforecast():
         logging.error(
             "Error while retrieving info from forecast API. %s", response.status_code
         )
-        logging.error(
-            "Reason %s", response.reason
-        )
+        logging.error("Reason %s", response.reason)
         message = f"API error message: {response.status_code} {response.reason}"
         send_telegram.send_telegram_message(message)
         sys.exit()
 
     forecast_json = response.json()
-    tomorrow = datetime.datetime.now() + datetime.timedelta(days=1)
-    new_forecast = copy.deepcopy(forecast_json['result'])
-    for i in forecast_json['result']:
+    if datetime.datetime.today().hour <= 6:
+        """Since new prices will be available after 15:00, calling them after
+        midnight but before 15:00 will result in empty response. But also since it
+        is only for debugging that EnergyZero will be queried after midnight,
+        I'm using before 6am as time check"""
+        tomorrow = datetime.datetime.today()
+    else:
+        tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
+
+    new_forecast = copy.deepcopy(forecast_json["result"])
+    for i in forecast_json["result"]:
         if datetime.datetime.strptime(i, "%Y-%m-%dT%H:%M:%S%z").day != tomorrow.day:
             new_forecast.pop(i)
 
