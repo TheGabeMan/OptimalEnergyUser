@@ -17,6 +17,7 @@ To make the forecast for your solar panels, you need to determine:
 2. the declination of your panels
 3. the azimuth or orientation of your panels.
 4. the peak watt of your solar panels in kWh (float)
+5. Your timezone, for example 'Europe/Amsterdam'
 
 Add these values to the .env file manually like:
 ```
@@ -25,6 +26,7 @@ LON=25.3
 DEC=25
 AZI=40
 KWP=4.4
+TIMEZONE=Europe/Amsterdam
 ```
 
 # Telegram Token and chat ID
