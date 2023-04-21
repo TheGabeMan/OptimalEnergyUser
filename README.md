@@ -47,6 +47,7 @@ This project makes use of the following other projects:
 - [Forecast.Solar by Knut Kohl](https://forecast.solar/) Though the use of his API is for free, please reward the maker by signing up for the 'personal' plan or use the 'buy me a coffee' button on the website.
 
 
-# Breaking changes
+# Changes
 - March 22nd, 2023: Added TIMEZONE=Europe/Amsterdam to the .env, you should add this as well (with your timezone) to prevent the script from failing.
 - April 21st, 2023: Added TMPIMAGEPATH=/home/OptimalEnergyUser to the .env. This points to the temp directory for the image generated. If not specified it will use the directory of the script.
+- April 21st, 2023: Show the BASICHOUSEUSAGEWATT (Basic House Usage in WATT) in the image as third graph
