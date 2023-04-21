@@ -30,7 +30,7 @@ def main():
     # numpy.save('dumpert', combined_list, allow_pickle=True)
 
     # Plot Graph
-    plt, forecastdate = plotgraph.create_plot(combined_list)
+    plt = plotgraph.create_plot(combined_list)
 
     # Generate temp file name
     image_name = "{}{:-%Y%m%d%H%M%S}.jpeg".format(

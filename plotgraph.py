@@ -19,13 +19,17 @@ def create_plot(combined_list):
     xas = [(str(combined_list[i][0].hour) + ":00") for i in range(rows)]
     forecastdate = datetime.datetime.strftime(combined_list[12][0], "%A %d %B %Y")
     max_prices = max(prices.flatten()) * 1.5
+    if min(prices.flatten()) * 1.25 >0:
+        min_prices = 0
+    else:
+        min_prices = min(prices.flatten()) * 1.25
 
     fig, ax = plt.subplots()
     ax.bar(xas, prices.flatten(), color="#76ff7b", label="Price per KWh")
     ax.set_xticks(xas, xas, rotation=45, fontsize=5)
     ax.set_xlabel("Time of day")
     ax.set_ylabel("Price in Euro's")
-    ax.set_ylim(ymax=max_prices, ymin=0)
+    ax.set_ylim(ymax=max_prices, ymin=min_prices)
     ax.legend()
 
     ax2 = ax.twinx()
@@ -37,4 +41,4 @@ def create_plot(combined_list):
     plt.title("Forecast for " + forecastdate)
     plt.legend(loc="upper left")
 
-    return plt, forecastdate
+    return plt
