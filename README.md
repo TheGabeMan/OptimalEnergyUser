@@ -48,5 +48,5 @@ This project makes use of the following other projects:
 
 
 # Breaking changes
-March 22nd, 2023: Added TIMEZONE=Europe/Amsterdam to the .env, you should add this as well (with your timezone) to prevent the script from failing.
-April 21st, 2023: Added TMPIMAGEPATH=/home/OptimalEnergyUser to the .env. This points to the temp directory for the image generated. If not specified it will use the directory of the script.
+- March 22nd, 2023: Added TIMEZONE=Europe/Amsterdam to the .env, you should add this as well (with your timezone) to prevent the script from failing.
+- April 21st, 2023: Added TMPIMAGEPATH=/home/OptimalEnergyUser to the .env. This points to the temp directory for the image generated. If not specified it will use the directory of the script.
