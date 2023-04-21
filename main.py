@@ -43,8 +43,6 @@ def main():
     image_name = tmp_image_path + "{}{:-%Y%m%d%H%M%S}.jpeg".format(
         str(uuid.uuid4().hex), datetime.datetime.now()
     )
-    print( tmp_image_path)
-    print( image_name )
     plt.savefig(image_name, format="png", dpi=300)
 
     # Send to Telegram

@@ -11,6 +11,10 @@ load_dotenv()
 def create_plot(combined_list):
     """Generate the data for the Graph"""
     forecast_kwp = float(os.getenv("KWP")) * 1000
+    if float( os.getenv("BASICHOUSEUSAGEWATT")) > 0:
+        basic_house_usage = float(os.getenv("BASICHOUSEUSAGEWATT"))
+    else:
+        basic_house_usage = 0
 
     rows = len(combined_list)
     prices = combined_list[0 : rows + 1, 1:2]
@@ -38,6 +42,8 @@ def create_plot(combined_list):
     ax2.set_ylim(ymax=forecast_kwp, ymin=0)
     ax2.legend()
 
+    plt.axhline(basic_house_usage,xmin=0, xmax=forecast_kwp, color="orange" )
+    ax2.plot(basic_house_usage, color="orange", label="Basic House Usage in Watt")
     plt.title("Forecast for " + forecastdate)
     plt.legend(loc="upper left")
 
