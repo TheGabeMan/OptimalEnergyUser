@@ -54,7 +54,7 @@ def send_telegram_message(message):
         print("Error while posting to telegram API %s", response.status_code)
 
 
-def create_body_text(energyprices):
+def create_body_text(energyprices, forecast_date):
     """Create a body text for the telegram message"""
     timezone = pytz.timezone(os.getenv("TIMEZONE"))
     energyprice_max_time = (
@@ -63,11 +63,8 @@ def create_body_text(energyprices):
     energyprice_min_time = (
         (energyprices.lowest_price_time).astimezone(timezone).strftime("%H:%M")
     )
-    forecastdate = datetime.datetime.strftime(
-        energyprices.lowest_price_time, "%A %d %B %Y"
-    )
 
-    text = "Energy prices and solar forecast for " + forecastdate + "\n"
+    text = "Energy prices and solar forecast for " + forecast_date + "\n"
     text += "The maximum price will be at " + energyprice_max_time + "\n"
     text += "The minimum price will be at " + energyprice_min_time + "\n"
     return text

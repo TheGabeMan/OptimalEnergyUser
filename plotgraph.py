@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def create_plot(combined_list):
+def create_plot(combined_list,forecast_date):
     """Generate the data for the Graph"""
     forecast_kwp = float(os.getenv("KWP")) * 1000
     if float( os.getenv("BASICHOUSEUSAGEWATT")) > 0:
@@ -21,7 +21,6 @@ def create_plot(combined_list):
     solar = combined_list[0 : rows + 1, 3:4]
 
     xas = [(str(combined_list[i][0].hour) + ":00") for i in range(rows)]
-    forecastdate = datetime.datetime.strftime(combined_list[12][0], "%A %d %B %Y")
     max_prices = max(prices.flatten()) * 1.5
     if min(prices.flatten()) * 1.25 >0:
         min_prices = 0
@@ -46,7 +45,7 @@ def create_plot(combined_list):
     ax2.plot(basic_house_usage,
              color="orange",
              label=f"Basic House Usage {basic_house_usage} Watt")
-    plt.title("Forecast for " + forecastdate)
+    plt.title("Forecast for " + forecast_date)
     plt.legend(loc="upper left")
 
     return plt

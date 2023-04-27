@@ -6,7 +6,6 @@ import sys
 import os
 import matplotlib.pyplot as plt
 import numpy
-
 from energyzero import EnergyZero
 import plotgraph
 import solarforecast
@@ -25,12 +24,13 @@ def main():
 
     # Combine Energy Prices and SolarForcast
     combined_list = get_combined_values(energyprices, solar_forecastjson)
+    forecast_date = datetime.datetime.strftime(combined_list[12][0], "%A %d %B %Y")
 
     # Voor debugging opslaan van combined_list
     # numpy.save('dumpert', combined_list, allow_pickle=True)
 
     # Plot Graph
-    plt = plotgraph.create_plot(combined_list)
+    plt = plotgraph.create_plot(combined_list,forecast_date)
 
     if os.getenv("TMPIMAGEPATH") is None:
         tmp_image_path = "./"
@@ -46,7 +46,7 @@ def main():
     plt.savefig(image_name, format="png", dpi=300)
 
     # Send to Telegram
-    telegram_text = send_telegram.create_body_text(energyprices)
+    telegram_text = send_telegram.create_body_text(energyprices, forecast_date)
     send_telegram.send_telegram_message(telegram_text)
     send_telegram.send_telegram_image(image_name)
 
