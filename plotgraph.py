@@ -43,7 +43,9 @@ def create_plot(combined_list):
     ax2.legend()
 
     plt.axhline(basic_house_usage,xmin=0, xmax=forecast_kwp, color="orange" )
-    ax2.plot(basic_house_usage, color="orange", label="Basic House Usage in Watt")
+    ax2.plot(basic_house_usage,
+             color="orange",
+             label=f"Basic House Usage {basic_house_usage} Watt")
     plt.title("Forecast for " + forecastdate)
     plt.legend(loc="upper left")
 
