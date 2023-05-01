@@ -1,15 +1,18 @@
 """Generate the data for the Graph"""
+import os
 import datetime
 import matplotlib.pyplot as plt
 import numpy
-import os
 from dotenv import load_dotenv
+import main
 
 load_dotenv()
 
 
 def create_plot(combined_list,forecast_date):
     """Generate the data for the Graph"""
+    main.debuglog('Create Graphs')
+
     forecast_kwp = float(os.getenv("KWP")) * 1000
     if float( os.getenv("BASICHOUSEUSAGEWATT")) > 0:
         basic_house_usage = float(os.getenv("BASICHOUSEUSAGEWATT"))

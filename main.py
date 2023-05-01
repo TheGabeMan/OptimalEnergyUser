@@ -3,6 +3,7 @@ import asyncio
 import datetime
 import uuid
 import sys
+import logging
 import os
 import matplotlib.pyplot as plt
 import numpy
@@ -12,9 +13,15 @@ import solarforecast
 import send_telegram
 
 
+
 def main():
     """Main script"""
     # Nog doen: controle op env inhoud en eventueel vragen om input
+
+    logging.basicConfig(filename='OptimalEnergyUser.log',
+                    encoding='utf-8',
+                    level=logging.INFO)
+    debuglog('Start OptimalEnergyUser')
 
     # Get EnergyZero prices
     energyprices = asyncio.run(get_energy_prices())
@@ -53,6 +60,14 @@ def main():
     # Remove the temporary file
     os.remove(image_name)
 
+def debuglog(text):
+    """Write logging information"""
+    time_stamp = datetime.datetime.today()
+    logging.info(datetime.datetime.strftime(
+                        time_stamp,
+                        "%Y-%m-%dT%H:%M:%S%z") +
+                        " " +
+                        text)
 
 def get_combined_values(energyprices, solar_forecastjson):
     """Combine Energy prices and forecast"""
@@ -125,6 +140,7 @@ async def get_energy_prices() -> None:
 
         start_date = end_date  # We only need one day
         energy = await client.energy_prices(start_date, end_date)
+        debuglog('Query EnergZero API')
         return energy
 
 

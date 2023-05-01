@@ -7,6 +7,7 @@ import os
 import requests
 from dotenv import load_dotenv
 import send_telegram
+import main
 
 load_dotenv()
 
@@ -14,7 +15,7 @@ load_dotenv()
 def get_solarforecast():
     """Read forecast for tomorrow"""
 
-    logging.info("Reading location information from .env")
+    main.debuglog("Reading location information from .env")
     forecast_lat = os.getenv("LAT")
     forecast_lon = os.getenv("LON")
     forecast_dec = os.getenv("DEC")
@@ -31,13 +32,13 @@ def get_solarforecast():
     )
     # no_sun parameter to prevent last timestamp to be in middle of an hour block
     # see: https://doc.forecast.solar/api
-    logging.info("Retrieve info from forecast.solar")
+    main.debuglog("Retrieve info from forecast.solar")
     response = requests.get(url=url, timeout=10)
     if response.status_code != 200:
-        logging.error(
+        main.debuglog(
             "Error while retrieving info from forecast API. %s", response.status_code
         )
-        logging.error("Reason %s", response.reason)
+        main.debuglog("Reason %s", response.reason)
         message = f"API error message: {response.status_code} {response.reason}"
         send_telegram.send_telegram_message(message)
         sys.exit()
