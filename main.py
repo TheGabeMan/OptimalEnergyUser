@@ -140,7 +140,8 @@ async def get_energy_prices() -> None:
 
         start_date = end_date  # We only need one day
         energy = await client.energy_prices(start_date, end_date)
-        debuglog('Query EnergZero API')
+        debuglog('Query EnergZero API, return lenght of energy.prices = ' +
+                str(len(energy.prices)) )
         return energy
 
 

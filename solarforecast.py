@@ -1,5 +1,5 @@
 """ Read Solar forecast from forecast.solar """
-import logging
+# import logging
 import datetime
 import sys
 import copy
@@ -36,13 +36,14 @@ def get_solarforecast():
     response = requests.get(url=url, timeout=10)
     if response.status_code != 200:
         main.debuglog(
-            "Error while retrieving info from forecast API. %s", response.status_code
+            f"Error while retrieving info from forecast API. {response.status_code}"
         )
-        main.debuglog("Reason %s", response.reason)
+        main.debuglog(f"Reason {response.reason}")
         message = f"API error message: {response.status_code} {response.reason}"
         send_telegram.send_telegram_message(message)
         sys.exit()
 
+    main.debuglog("Success Retrieve info from forecast.solar")
     forecast_json = response.json()
     if datetime.datetime.today().hour <= 6:
         """Since new prices will be available after 15:00, calling them after
