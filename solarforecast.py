@@ -39,7 +39,7 @@ def get_solarforecast():
             f"Error while retrieving info from forecast API. {response.status_code}"
         )
         main.debuglog(f"Reason {response.reason}")
-        message = f"API error message: {response.status_code} {response.reason}"
+        message = f"Forecast.Solar API error message: {response.status_code} {response.reason}"
         send_telegram.send_telegram_message(message)
         sys.exit()
 

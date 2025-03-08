@@ -131,3 +131,6 @@ dmypy.json
 
 ## Numpy Array dunps (Gabrie)
 *.npy
+
+## Geen JPEG sync
+*.jpeg

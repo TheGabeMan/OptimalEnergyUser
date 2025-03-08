@@ -130,16 +130,16 @@ async def get_energy_prices() -> None:
 
     async with EnergyZero(incl_btw="true") as client:
         if datetime.datetime.today().hour <= 6:
-            """Since new prices will be available after 15:00, calling them after
-            midnight but before 15:00 will result in empty response. But also since it
-            is only for debugging that EnergyZero will be queried after midnight,
-            I'm using before 6am as time check"""
+            # Since new prices will be available after 15:00, calling them after
+            # midnight but before 15:00 will result in empty response. But also since it
+            # is only for debugging that EnergyZero will be queried after midnight,
+            # I'm using before 6am as time check
             end_date = datetime.datetime.today()
         else:
             end_date = datetime.datetime.today() + datetime.timedelta(days=1)
 
         start_date = end_date  # We only need one day
-        energy = await client.energy_prices(start_date, end_date)
+        energy = await client.energy_prices(start_date,end_date)
         debuglog('Query EnergZero API, return lenght of energy.prices = ' +
                 str(len(energy.prices)) )
         return energy
